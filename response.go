@@ -70,7 +70,7 @@ type header struct {
 type Response struct {
 	status  int
 	code    int
-	data    *any
+	data    any
 	body    *body
 	message string
 	noBody  bool
@@ -144,7 +144,7 @@ func (r *Response) SetData(data *any) *Response {
 	return r
 }
 
-func (r *Response) GetData() *any {
+func (r *Response) GetData() any {
 	return r.data
 }
 
