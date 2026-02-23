@@ -139,7 +139,7 @@ func (r *Response) GetMessage() string {
 	return r.message
 }
 
-func (r *Response) SetData(data *any) *Response {
+func (r *Response) SetData(data any) *Response {
 	r.data = data
 	return r
 }
