@@ -158,6 +158,9 @@ func (r *Response) GetHtml() *string {
 }
 
 func (r *Response) SetMeta(key string, value any) *Response {
+	if r.meta == nil {
+		r.meta = make(map[string]any)
+	}
 	r.meta[key] = value
 	return r
 }
