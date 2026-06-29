@@ -9,6 +9,8 @@ package response
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"regexp"
 	"strings"
 
@@ -62,7 +64,7 @@ func (r *Response) SendErrorFormatted(code int, key string, setHttp bool) error 
 		message = "Unrecognized method"
 		break
 	case Status.Unauthorized:
-		message = "Authiorization failed"
+		message = "Authorization failed"
 		break
 	case Status.Forbidden:
 		message = "Request forbidden"
@@ -101,5 +103,12 @@ func (r *Response) doSend(payload *[]byte) {
 	switch cl := r.client.(type) {
 	case *gin.Context:
 		cl.Data(r.code, r.contentType, *payload)
+	case *http.ResponseWriter:
+		c := *cl
+		c.WriteHeader(r.code)
+		_, err := c.Write(*payload)
+		if err != nil {
+			log.Printf("[analike/response] error writing response: %#v", err)
+		}
 	}
 }

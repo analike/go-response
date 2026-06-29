@@ -8,6 +8,7 @@ package response
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -21,6 +22,12 @@ func (r *Response) sendHeaders() *Response {
 		for _, h := range r.headers {
 			for _, v := range h.value {
 				cl.Header(h.name, v)
+			}
+		}
+	case *http.ResponseWriter:
+		for _, h := range r.headers {
+			for _, v := range h.value {
+				(*cl).Header().Set(h.name, v)
 			}
 		}
 	}

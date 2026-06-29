@@ -271,3 +271,23 @@ func CreateNewGin(c *gin.Context, req *request.Request) Response {
 		reqTime:    &now,
 	}
 }
+
+func CreateNewHttp(c *http.ResponseWriter, req *request.Request) Response {
+	now := time.Now()
+	return Response{
+		status:         Status.Ok,
+		code:           Status.Ok,
+		cacheImmutable: false,
+		noBody:         false,
+		noCache:        true,
+		contentType:    Mimetypes.JSON,
+		acceptRanges:   false,
+		exposeDuration: false,
+		client:         c,
+
+		reqHeaders: req.Headers,
+		reqClient:  req,
+		reqMethod:  req.Method,
+		reqTime:    &now,
+	}
+}
