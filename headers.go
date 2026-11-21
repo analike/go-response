@@ -1,7 +1,7 @@
 /**
  * @package go-response (2026)
  * @author Emmanuel Analike <emmanuel@analike.dev>
- * @created Feb 19, 2026; 10:24 AM
+ * @created Feb 19, 2026; 10:24 AM
  */
 
 package response
@@ -57,6 +57,10 @@ func (r *Response) setHeaders() *Response {
 		r.AddHeader("X-Took", took)
 	}
 
+	if r.contentType != "" {
+		r.AddHeader("Content-Type", r.contentType)
+	}
+
 	return r
 }
 
@@ -65,8 +69,8 @@ func (r *Response) setFileHeaders() error {
 		f := *r.file
 		_, err := os.Stat(f.PathAbsolute)
 		if f.PathAbsolute != "" && err == nil {
-			if r.contentType != "" {
-				r.AddHeader("Content-Type", Mimetypes.FILE)
+			if r.contentType == "" {
+				r.SetContentType(Mimetypes.FILE)
 			}
 			if f.Name != "" {
 				r.AddHeader("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", f.Name))
